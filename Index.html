@@ -1070,15 +1070,32 @@ footer{background:var(--espresso);color:rgba(253,247,238,.65);text-align:center;
 <script>
 const tabs=document.querySelectorAll('.tab');
 const pages=document.querySelectorAll('.page');
-tabs.forEach(btn=>{
-  btn.addEventListener('click',()=>{
-    const id=btn.dataset.p;
-    tabs.forEach(b=>b.classList.remove('on'));
-    pages.forEach(p=>p.classList.remove('on'));
+
+function showTab(id){
+  tabs.forEach(b=>b.classList.remove('on'));
+  pages.forEach(p=>p.classList.remove('on'));
+  const btn=document.querySelector('.tab[data-p="'+id+'"]');
+  const page=document.getElementById('p-'+id);
+  if(btn&&page){
     btn.classList.add('on');
-    document.getElementById('p-'+id).classList.add('on');
+    page.classList.add('on');
     btn.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});
     window.scrollTo({top:0,behavior:'smooth'});
+  }
+}
+
+// 開啟時檢查網址 hash，自動跳到對應頁籤
+(function(){
+  const hash=window.location.hash.replace('#','');
+  const valid=['notices','price','offers','vip','calendar','address','booking','care','faq'];
+  if(hash&&valid.includes(hash)){
+    showTab(hash);
+  }
+})();
+
+tabs.forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    showTab(btn.dataset.p);
   });
 });
 function faq(el){
