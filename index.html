@@ -1552,7 +1552,11 @@ function showTab(id){
 (function(){
   const hash=window.location.hash.replace('#','');
   const valid=['home','services','flow','address','faq'];
-  if(hash&&valid.includes(hash)){
+  const subMap={'offers':'offers','vip':'vip','wax':'wax','hair':'hair','face':'face','bridalsvc':'bridalsvc'};
+  if(hash&&subMap[hash]){
+    showTab('services');
+    showSub(subMap[hash]);
+  }else if(hash&&valid.includes(hash)){
     showTab(hash);
   }
 })();
